@@ -1,7 +1,7 @@
 import fs from 'fs';
 import test from 'tape';
 
-import Graphemer from '../lib';
+import Graphemer from '../lib/esm';
 import { testDataFromLine } from './utils';
 
 const testData = fs

@@ -1,3 +1,3 @@
-import Graphemer from './Graphemer';
+import Graphemer from './Graphemer.js';
 
 export default Graphemer;

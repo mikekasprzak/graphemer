@@ -1,6 +1,6 @@
-import { CLUSTER_BREAK, EXTENDED_PICTOGRAPHIC } from './boundaries';
-import GraphemerHelper from './GraphemerHelper';
-import GraphemerIterator from './GraphemerIterator';
+import { CLUSTER_BREAK, EXTENDED_PICTOGRAPHIC } from './boundaries.js';
+import GraphemerHelper from './GraphemerHelper.js';
+import GraphemerIterator from './GraphemerIterator.js';
 
 export default class Graphemer {
   /**

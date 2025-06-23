@@ -1,15 +1,23 @@
 {
-  "name": "graphemer",
-  "version": "1.4.0",
+  "name": "@mikekasprzak/graphemer",
+  "version": "1.4.1",
   "description": "A JavaScript library that breaks strings into their individual user-perceived characters (including emojis!)",
   "homepage": "https://github.com/flmnt/graphemer",
   "author": "Matt Davies <matt@filament.so> (https://github.com/mattpauldavies)",
   "contributors": [
     "Orlin Georgiev (https://github.com/orling)",
-    "Huáng Jùnliàng (https://github.com/JLHwung)"
+    "Huáng Jùnliàng (https://github.com/JLHwung)",
+    "Mike Kasprzak (https://github.com/mikekasprzak)"
   ],
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./lib/esm/index.js",
+  "types": "./lib/types/index.d.ts",
+  "type": "module",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "broswer": "./lib/graphemer.min.js",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js"
+  },
   "files": [
     "lib"
   ],
@@ -21,34 +29,37 @@
     "split"
   ],
   "scripts": {
-    "prepublishOnly": "npm run build",
-    "build": "tsc --project tsconfig.json",
-    "pretest": "npm run build",
-    "test": "ts-node node_modules/tape/bin/tape tests/**.ts",
+    "prepublishOnly": "$npm_execpath run build",
+    "build": "$npm_execpath run build:all",
+    "build:clean": "rm -fr ./lib",
+    "build:node": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:types": "tsc --project tsconfig.types.json",
+    "build:browser": "esbuild src/index.ts --platform=browser --bundle --minify --keep-names --sourcemap --format=esm --target=es2020 --outfile=./lib/graphemer.js",
+    "build:tests": "tsc --project tsconfig.tests.json",
+    "build:all": "$npm_execpath run build:node && $npm_execpath run build:browser",
+    "gzip:browser": "gzip -k ./lib/graphemer.js",
+    "pretest": "$npm_execpath run build:tests",
+    "test": "ts-node --project tsconfig.etests.json node_modules/tape/bin/tape .tests/**.js",
+    "test2": "tape tests/**.ts",
+    "jest": "jest",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write ."
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/flmnt/graphemer.git"
+    "url": "https://github.com/mikekasprzak/graphemer"
   },
   "bugs": "https://github.com/flmnt/graphemer/issues",
   "devDependencies": {
-    "@types/tape": "^4.13.0",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.3.0",
-    "prettier": "^2.1.1",
-    "tape": "^4.6.3",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm test"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,md,json}": "prettier --write"
+    "@types/tape": "^5.0.0",
+    "prettier": "^3.0.0",
+    "tape": "^5.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0",
+    "esbuild": "^0.25.0",
+    "ts-jest": "*",
+    "jest": "*"
   }
 }

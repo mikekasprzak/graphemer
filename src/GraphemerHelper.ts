@@ -1,4 +1,4 @@
-import { CLUSTER_BREAK, EXTENDED_PICTOGRAPHIC } from './boundaries';
+import { CLUSTER_BREAK, EXTENDED_PICTOGRAPHIC } from './boundaries.js';
 
 // BreakTypes
 // @type {BreakType}
