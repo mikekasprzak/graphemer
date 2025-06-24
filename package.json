@@ -1,6 +1,6 @@
 {
   "name": "@mikekasprzak/graphemer",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "A JavaScript library that breaks strings into their individual user-perceived characters (including emojis!)",
   "homepage": "https://github.com/flmnt/graphemer",
   "author": "Matt Davies <matt@filament.so> (https://github.com/mattpauldavies)",
@@ -9,14 +9,14 @@
     "Huáng Jùnliàng (https://github.com/JLHwung)",
     "Mike Kasprzak (https://github.com/mikekasprzak)"
   ],
-  "main": "./lib/esm/index.js",
+  "main": "./lib/cjs/index.js",
   "types": "./lib/types/index.d.ts",
   "type": "module",
   "exports": {
     "types": "./lib/types/index.d.ts",
-    "broswer": "./lib/graphemer.min.js",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js"
+    "broswer": "./lib/graphemer.js",
+    "require": "./lib/cjs/index.js",
+    "import": "./lib/esm/index.js"
   },
   "files": [
     "lib"
@@ -31,19 +31,18 @@
   "scripts": {
     "prepublishOnly": "$npm_execpath run build",
     "build": "$npm_execpath run build:all",
-    "build:clean": "rm -fr ./lib",
+    "clean": "rm -fr ./lib",
+    "prebuild": "./makelib.sh",
     "build:node": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:types": "tsc --project tsconfig.types.json",
     "build:browser": "esbuild src/index.ts --platform=browser --bundle --minify --keep-names --sourcemap --format=esm --target=es2020 --outfile=./lib/graphemer.js",
-    "build:tests": "tsc --project tsconfig.tests.json",
     "build:all": "$npm_execpath run build:node && $npm_execpath run build:browser",
     "gzip:browser": "gzip -k ./lib/graphemer.js",
-    "pretest": "$npm_execpath run build:tests",
-    "test": "ts-node --project tsconfig.etests.json node_modules/tape/bin/tape .tests/**.js",
-    "test2": "tape tests/**.ts",
-    "jest": "jest",
+    "pretest": "$npm_execpath run build:all",
+    "test": "ts-node node_modules/tape/bin/tape tests/**.test.ts",
+    "test2": "tape tests/**.test.ts",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write ."
   },
@@ -58,8 +57,6 @@
     "tape": "^5.0.0",
     "ts-node": "^10.0.0",
     "typescript": "^5.0.0",
-    "esbuild": "^0.25.0",
-    "ts-jest": "*",
-    "jest": "*"
+    "esbuild": "^0.25.0"
   }
 }

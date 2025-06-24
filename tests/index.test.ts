@@ -1,8 +1,8 @@
 import fs from 'fs';
 import test from 'tape';
 
-import Graphemer from '../lib/esm';
-import { testDataFromLine } from './utils';
+import Graphemer from '../lib/cjs/index.js';
+import { testDataFromLine } from './utils.js';
 
 const testData = fs
   .readFileSync('tests/GraphemeBreakTest.txt', 'utf-8')
